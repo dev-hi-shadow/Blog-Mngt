@@ -29,7 +29,7 @@ class Blogs extends Model {
       foreignKey: "sub_category_id",
       sourceKey: "id",
     });
-    Blogs.hasMany(db.Comments, {
+    Blogs.hasMany(db.BlgComments, {
       as: "comments",
       foreignKey: "blog_id",
       sourceKey: "id",

@@ -2,7 +2,7 @@ const { JoiValidator } = require("../../middlewares");
 const {
   createSubCategoryJoiValidation,
   updateSubCategoryJoiValidation,
-} = require("../sub-categories/validation");
+} = require("./validation");
 const {
   CreateSubCategory,
   updateSubCategory,

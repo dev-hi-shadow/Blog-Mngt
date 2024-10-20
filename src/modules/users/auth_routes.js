@@ -1,4 +1,4 @@
-const { JoiValidator } = require("../../middlewares");
+  const { JoiValidator } = require("../../middlewares");
 const { login, Register } = require("./controller");
 const { prevent_duplicate } = require("./helper");
 const { RegisterJoiSchema, loginJoiSchema } = require("./validation");

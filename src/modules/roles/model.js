@@ -25,15 +25,19 @@ Roles.init(
     },
     created_at: {
       type: DataTypes.DATE,
-      defaultValue: DataTypes.literal("CURRENT_TIMESTAMP"),
+      defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
+      allowNull: false,
     },
     updated_at: {
       type: DataTypes.DATE,
-      defaultValue: null,
+      defaultValue: sequelize.literal(
+        "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
+      ),
+      allowNull: false,
     },
     deleted_at: {
       type: DataTypes.DATE,
-      defaultValue: null,
+      allowNull: true,
     },
   },
   {

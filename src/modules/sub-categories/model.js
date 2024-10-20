@@ -16,18 +16,11 @@ class SubCategories extends Model {
       foreignKey: "category_id",
       targetKey: "id",
     }),
-      SubCategories.hasMany(db.SubCategoryTax, {
-        foreignKey: "sub_category_id",
+      SubCategories.belongsTo(db.Users, {
+        as: "created_by_user",
+        foreignKey: "created_by",
+        targetKey: "id",
       });
-    SubCategories.hasMany(db.Products, {
-      foreignKey: "sub_category_id",
-      as: "sub_category",
-    });
-    SubCategories.belongsTo(db.Users, {
-      as: "creator",
-      foreignKey: "created_by",
-      targetKey: "id",
-    });
   }
 }
 SubCategories.init(
@@ -78,6 +71,20 @@ SubCategories.init(
         model: "users",
         key: "id",
       },
+    },
+    created_at: {
+      type: DataTypes.DATE,
+      defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
+      allowNull: false,
+    },
+    updated_at: {
+      type: DataTypes.DATE,
+      defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
+      allowNull: false,
+    },
+    deleted_at: {
+      type: DataTypes.DATE,
+      allowNull: true,
     },
   },
 

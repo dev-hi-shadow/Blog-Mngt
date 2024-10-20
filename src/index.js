@@ -71,7 +71,8 @@ app.use(require("./routes/index"));
 
 // common middleware to handle all errors
 app.use((err, req, res, next) => {
-  const sendErrors = {
+   console.log("🚀  err:", err)
+   const sendErrors = {
     status: 500,
     success: false,
   };

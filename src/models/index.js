@@ -1,7 +1,8 @@
+const BlgComments = require("../modules/blg_comments/model.js");
 const Blogs = require("../modules/blogs/model.js");
 const Categories = require("../modules/categories/model.js");
 const Roles = require("../modules/roles/model.js");
-const SubCategories = require("../modules/sub_catrgories/model.js");
+const SubCategories = require("../modules/sub-categories/model.js");
 const Users = require("../modules/users/model");
 
 const db = {
@@ -10,10 +11,10 @@ const db = {
   Categories,
   SubCategories,
   Blogs,
+  BlgComments,
 };
 
 Object.keys(db).forEach((modelName) => {
-  console.log("🚀  modelName:", modelName);
   if (db[modelName].associate) {
     db[modelName].associate(db);
   }

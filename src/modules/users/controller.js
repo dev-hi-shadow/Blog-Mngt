@@ -4,9 +4,7 @@ const { Op } = require("sequelize");
 const md5 = require("md5");
 const RoleAttributes = require("../roles/attributes");
 const Roles = require("../roles/model");
-const { asyncEmailQueue, asyncSMSQueue } = require("../../helpers/queue");
-const { auth } = require("./attributes");
-const { getFileNameFromFileObject } = require("../../helpers");
+  const { getFileNameFromFileObject } = require("../../helpers");
 
 const Register = async (req, res, next) => {
   try {
@@ -176,5 +174,5 @@ module.exports = {
   Register,
   getProfile,
   login,
-   Logout,
+  Logout,
 };

@@ -1,6 +1,5 @@
 const { JoiValidator } = require("../../middlewares");
-const upload = require("../../middlewares/multer");
-const {
+ const {
   createCategoryJoiValidation,
   updateCategoryJoiValidation,
 } = require("../categories/validation");

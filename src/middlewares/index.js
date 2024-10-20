@@ -2,7 +2,6 @@ const JWT = require("jsonwebtoken");
 const { Users, Roles } = require("../models");
 const userAttributes = require("../modules/users/attributes");
 const rolesAttributes = require("../modules/roles/attributes");
-const { ROLES } = require("../constants");
 
 // Middleware for HTTP requests
 exports.verifyAuthToken = async (req, res, next) => {
@@ -24,7 +23,7 @@ exports.verifyAuthToken = async (req, res, next) => {
       });
     }
     const user = await Users.findByPk(decoded.id, {
-      attributes: userAttributes.auth,
+      // attributes: userAttributes.auth,
       include: {
         model: Roles,
         as: "role",
