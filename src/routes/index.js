@@ -10,5 +10,6 @@ router.use("/users", require("../modules/users"));
 router.use("/blogs", require("../modules/blogs"));
 router.use("/categories", require("../modules/categories"));
 router.use("/sub-categories", require("../modules/sub-categories"));
- 
+router.use("/comments", require("../modules/blg_comments"));
+
 module.exports = router;

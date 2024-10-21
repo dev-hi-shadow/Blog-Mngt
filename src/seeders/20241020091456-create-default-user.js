@@ -14,7 +14,8 @@ module.exports = {
           email: "sa_gautam@yopmail.com",
           password: "user@123",
           role_id: 1,
-           created_by: null,
+          phone: 8306268991,
+          created_by: null,
         },
       ],
       {}

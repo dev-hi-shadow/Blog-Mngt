@@ -1,11 +1,25 @@
 const { getTableFilters } = require("../../helpers");
-const { Blogs, SubCategories } = require("../../models");
+const {
+  Blogs,
+  SubCategories,
+  Users,
+  Categories,
+  BlgComments,
+} = require("../../models");
+const moment = require("moment");
 
 exports.addBlog = async (req, res, next) => {
   try {
+    const category = (
+      await SubCategories.findByPk(req.body.sub_category_id)
+    ).toJSON();
     const blog = await Blogs.create({
       ...req.body,
+      category_id: category.category_id,
+      author_id: req.user_id,
       created_by: req.user_id,
+      updated_by: req.user_id,
+      published_at: moment(),
     });
     res.status(201).json({ status: true, data: blog });
   } catch (error) {
@@ -20,24 +34,37 @@ exports.getBlogs = async (req, res, next) => {
       blogs = null;
 
     const query = {
+      ...getTableFilters(req),
       include: [
         {
           model: Categories,
           as: "category",
-          // attributes: ['id', 'name']
         },
         {
           model: Users,
           as: "created_by_user",
-          // attributes: ['id', 'fisrt_name' , "last_name" , "display_name"]
         },
         {
           model: SubCategories,
           as: "sub_category",
-          // attributes: ['id', 'name']
+        },
+        {
+          model: SubCategories,
+          as: "sub_category",
+        },
+        {
+          model: BlgComments,
+          as: "comments",
+          include: [
+            {
+              model: Users,
+              as: "created_by_user",
+            },
+          ],
         },
       ],
     };
+
     if (id) {
       blog = await Blogs.findByPk(id, query);
     } else {

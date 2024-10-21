@@ -12,7 +12,9 @@ const db = {
   SubCategories,
   Blogs,
   BlgComments,
+
 };
+
 
 Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {

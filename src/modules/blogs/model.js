@@ -1,38 +1,33 @@
 const { Model, DataTypes } = require("sequelize");
 const { sequelize } = require("../../config/mysql");
-const md5 = require("md5");
 
 class Blogs extends Model {
   static associate(db) {
     Blogs.belongsTo(db.Users, {
       as: "created_by_user",
       foreignKey: "created_by",
-      sourceKey: "id",
     });
     Blogs.belongsTo(db.Users, {
       as: "updated_by_user",
       foreignKey: "updated_by",
-      sourceKey: "id",
     });
     Blogs.belongsTo(db.Users, {
       as: "deleted_by_user",
       foreignKey: "deleted_by",
-      sourceKey: "id",
     });
+
     Blogs.belongsTo(db.Categories, {
       as: "category",
       foreignKey: "category_id",
-      sourceKey: "id",
     });
     Blogs.belongsTo(db.SubCategories, {
       as: "sub_category",
       foreignKey: "sub_category_id",
-      sourceKey: "id",
     });
+
     Blogs.hasMany(db.BlgComments, {
       as: "comments",
       foreignKey: "blog_id",
-      sourceKey: "id",
     });
   }
 }
@@ -80,11 +75,11 @@ Blogs.init(
     },
     sub_category_id: {
       type: DataTypes.INTEGER,
+      allowNull: true,
       references: {
         model: "sub_categories",
         key: "id",
       },
-      allowNull: true,
     },
     views: {
       type: DataTypes.INTEGER,
@@ -112,11 +107,11 @@ Blogs.init(
     },
     deleted_by: {
       type: DataTypes.INTEGER,
+      allowNull: true,
       references: {
         model: "users",
         key: "id",
       },
-      allowNull: true,
     },
   },
   {
@@ -126,7 +121,7 @@ Blogs.init(
     hooks: {
       afterDestroy: async (instance, options) => {
         if (options?.deleted_by) {
-          instance.setDataValue("deleted_by", options?.deleted_by);
+          instance.setDataValue("deleted_by", options.deleted_by);
           await instance.save();
         }
       },

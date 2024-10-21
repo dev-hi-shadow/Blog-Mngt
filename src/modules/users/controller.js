@@ -1,10 +1,9 @@
-const { Users, SMSHISTORY, Addresses } = require("../../models");
+const { Users, Roles } = require("../../models");
 const JWT = require("jsonwebtoken");
 const { Op } = require("sequelize");
 const md5 = require("md5");
 const RoleAttributes = require("../roles/attributes");
-const Roles = require("../roles/model");
-  const { getFileNameFromFileObject } = require("../../helpers");
+const { getFileNameFromFileObject } = require("../../helpers");
 
 const Register = async (req, res, next) => {
   try {
@@ -52,22 +51,6 @@ const Register = async (req, res, next) => {
       attributes: RoleAttributes.default,
     });
 
-    // if (!role || role.toJSON().name === "SELLER") {
-    //   asyncEmailQueue
-    //     .createJob({
-    //       type: "NEW_SELLER_REGISTERED",
-    //       data: user,
-    //     })
-    //     .retries(3)
-    //     .save();
-    // asyncSMSQueue
-    //   .createJob({
-    //     type: "NEW_SELLER_REGISTERED",
-    //     data: user,
-    //   })
-    //   .retries(3)
-    //   .save();
-    // }
     user = user.toJSON();
     new_address = new_address.toJSON();
     user.token = JWT.sign({ id: user.id }, process.env.JWT_SECRET_KEY);
@@ -170,9 +153,46 @@ const Logout = async (req, res, next) => {
     next(error);
   }
 };
+
+const list = async (req, res, next) => {
+  try {
+    const { type } = req.query;
+    const users = await Users.findAll({
+      attributes: [
+        "id",
+        "first_name",
+        "last_name",
+        "display_name",
+        "email",
+        "phone",
+      ],
+      include: [
+        {
+          model: Roles,
+          as: "role",
+          attributes: ["name", "id"],
+          where: {
+            name: type,
+          },
+        },
+      ],
+    });
+
+    res.status(200).json({
+      status: 200,
+      success: true,
+      message: "Users fetched successfully",
+      data: users,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   Register,
   getProfile,
   login,
+  list,
   Logout,
 };

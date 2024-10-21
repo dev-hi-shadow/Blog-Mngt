@@ -1,16 +1,16 @@
 const { SubCategories, Categories, SubCategoryTax } = require("../../models");
 const { Op } = require("sequelize");
- const { sequelize } = require("../../config/mysql");
- const subCategoryAttributes = require("./attributes");
- 
+const { sequelize } = require("../../config/mysql");
+const subCategoryAttributes = require("./attributes");
+
 const { shortCategoryAttr } = require("../categories/attributes");
- 
+
 exports.CreateSubCategory = async (req, res, next) => {
   try {
-    console.log('req.body', req.body , req.user_id)
+    console.log("req.body", req.body, req.user_id);
     const subcategory = await SubCategories.create({
-      name : req.body.name ,
-      category_id : Number(req.body.category_id),
+      name: req.body.name,
+      category_id: Number(req.body.category_id),
       updated_by: req.user_id,
       created_by: req.user_id,
     });
@@ -51,12 +51,13 @@ exports.getSubCategories = async (req, res, next) => {
 
 exports.updateSubCategory = async (req, res, next) => {
   try {
-    if (req.body.verified === true) req.body.published_at = new Date();
-    if (req.body.is_published === false) req.body.published_at = null;
+    const { id } = req.params;
     const subcategories = await SubCategories.update(
       { ...req.body, updated_by: req.user_id },
       {
-        where: req.params.id,
+        where: {
+          id,
+        },
       }
     );
     res.status(200).json({
@@ -72,8 +73,9 @@ exports.updateSubCategory = async (req, res, next) => {
 
 exports.deleteSubCategory = async (req, res, next) => {
   try {
+    const { id } = req.params;
     const subcategories = await SubCategories.destroy({
-      where: req.params.id,
+      where: id,
     });
     res.status(200).json({
       status: 200,

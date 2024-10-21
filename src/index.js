@@ -29,8 +29,10 @@ var cors = require("cors"); //import cors module
 
 const allowedOrigins = [
   "*",
-  "http://localhost:5173",
-  "http://localhost:5174  , ",
+  "http://localhost:5173/",
+  "http://localhost:5174/",
+  "http://localhost:3000/",
+  "http://localhost:4000/",
 ];
 
 // CORS middleware
@@ -45,7 +47,13 @@ const corsOptions = {
 };
 
 // Use CORS middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: "*", // Allow all origins
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"], // Allow specific HTTP methods
+    allowedHeaders: ["Authorization", "Content-Type"], // Allow specific headers
+  })
+);
 
 // morgan configurations to print api request logs
 const morgan = require("morgan");
@@ -71,8 +79,8 @@ app.use(require("./routes/index"));
 
 // common middleware to handle all errors
 app.use((err, req, res, next) => {
-   console.log("🚀  err:", err)
-   const sendErrors = {
+  console.log("🚀  err:", err);
+  const sendErrors = {
     status: 500,
     success: false,
   };

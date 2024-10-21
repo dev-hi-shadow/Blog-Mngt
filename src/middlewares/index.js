@@ -40,7 +40,7 @@ exports.verifyAuthToken = async (req, res, next) => {
     }
     req.user = user;
     req.user_id = user.id;
-    req.isAdmin = ["SUPER_ADMIN", "ADMIN"].includes(user.role.name);
+     req.isAdmin = ["SUPER_ADMIN", "ADMIN"].includes(user.role.name);
     next();
   } catch (error) {
     return res.status(500).json({

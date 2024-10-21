@@ -10,6 +10,7 @@ module.exports = {
         { name: "ADMIN" },
         { name: "USER" },
         { name: "OPERATOR" },
+        { name: "AUTHORS" },
       ],
       {}
     );
