@@ -1,4 +1,4 @@
-const { BlgComments } = require("../../models");
+const { BlgComments, Blogs } = require("../../models");
 
 exports.addComment = async (req, res, next) => {
   try {
@@ -54,3 +54,21 @@ exports.deleteComment = async (req, res, next) => {
   }
 };
 
+exports.getComments = async (req, res, next) => {
+  try {
+    const comments = await BlgComments.findAll({
+      include: [
+        {
+          model: Blogs,
+          as: "blog",
+          where: {
+            created_by: req.user_id,
+          },
+        },
+      ],
+    });
+    res.status(200).json({ status: true, data: comments ,message : "Comments fetched successfully" });
+  } catch (error) {
+    next(error);
+  }
+};
